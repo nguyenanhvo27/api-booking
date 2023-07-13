@@ -56,13 +56,11 @@ export class RoomTypeService {
   }
 
   async update(
-    id: number,
-    updateRoomTypeDto: UpdateRoomTypeDto,
-  ): Promise<RoomType> {
+    id: number,updateRoomTypeDto: UpdateRoomTypeDto) {
     try {
-      const roomType = await this.findOne(id);
+      let roomType = await this.findOne(id);
 
-      const update = {
+      let update = {
         ...roomType,
         ...updateRoomTypeDto,
       };

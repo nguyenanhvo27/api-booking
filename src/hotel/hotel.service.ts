@@ -133,10 +133,12 @@ export class HotelService {
     }
   }
 
-  async update(id: number, updateHotelDto: UpdateHotelDto): Promise<Hotel> {
+  async update(id: number, updateHotelDto: UpdateHotelDto,file: Express.Multer.File): Promise<Hotel> {
     try {
       let hotel = await this.findOne(id);
-
+      if (file?.path) {
+        hotel.imgPath = file.path;
+      }
       let update = {
         ...hotel,
         ...updateHotelDto,

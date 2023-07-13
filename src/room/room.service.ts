@@ -8,6 +8,7 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 import { Room } from './entities/room.entity';
 import * as _ from 'lodash';
 import { Status } from './enum';
+import { UpdateRoomTypeDto } from 'src/room_type/dto/update-room_type.dto';
 
 @Injectable()
 export class RoomService {
@@ -233,19 +234,27 @@ export class RoomService {
   }
   ////admin
   
-
-  async update(id: number, updateRoomDto: UpdateRoomDto) {
+  
+  async update(id: number, updateRoomDto: UpdateRoomDto, file: Express.Multer.File) {
+    updateRoomTypeDto:UpdateRoomTypeDto;
     try {
+      let room_type: RoomType = await this.roomTypeRepository.findOne({where:{room_type_id:id}});
       let room = await this.findOne(id);
       if (room.status) {
         room.status = 'pending';
+      }
+      if (file?.path) {
+        room.imgPath = file.path;
       }
       let update = {
         
         ...room,
         ...updateRoomDto,
+        ...room_type,
+        ...updateRoomDto,
       };
-
+      
+      await this.roomTypeRepository.save(update);
       return this.roomRepository.save(update);
     } catch (error) {
       throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
@@ -262,9 +271,8 @@ export class RoomService {
       let update = {
         ...room,
         ...updateRoomDto,
+       
       };
-     
-      
       return this.roomRepository.save(update);
     } catch (error) {
       throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);

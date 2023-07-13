@@ -64,8 +64,9 @@ export class HotelController {
   async update(
     @Param('id') id: string,
     @Body() updateHotelDto: UpdateHotelDto,
+    @UploadedFile() file: Express.Multer.File
   ) {
-    return await this.hotelService.update(+id, updateHotelDto);
+    return await this.hotelService.update(+id, updateHotelDto,file);
   }
 
   @Delete(':id')

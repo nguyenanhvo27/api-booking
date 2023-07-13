@@ -70,8 +70,11 @@ export class RoomController {
   /////////////////////
  
   @Patch('/edit/:id')
-  update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
-    return this.roomService.update(+id, updateRoomDto);
+  @UseInterceptors(FileInterceptor('file'))
+  update(@Param('id') id: string, 
+  @Body() updateRoomDto: UpdateRoomDto,
+  @UploadedFile() file: Express.Multer.File) {
+    return this.roomService.update(+id, updateRoomDto, file);
   }
 
 

@@ -252,6 +252,25 @@ export class ReservationService {
       throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
     }
   }
+  async success(id: number, UpdateReservationDto: UpdateReservationDto) {
+    
+    try {
+      let reservation = await this.findOne(id);
+      
+      if (reservation.status) {
+        reservation.status = 'completed';
+      }
+      let update = {
+        ...reservation,
+        ...UpdateReservationDto,
+      };
+     
+      
+      return this.reservationRepository.save(update);
+    } catch (error) {
+      throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
+    }
+  }
   // Admin
   async adminFindAll() {
     const response = await this.reservationRepository.find({

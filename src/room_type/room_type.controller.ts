@@ -22,7 +22,7 @@ export class RoomTypeController {
     return this.roomTypeService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('/edit/:id')
   update(@Param('id') id: string, @Body() updateRoomTypeDto: UpdateRoomTypeDto) {
     return this.roomTypeService.update(+id, updateRoomTypeDto);
   }

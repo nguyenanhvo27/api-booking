@@ -305,6 +305,21 @@ export class ReservationService {
       throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
     }
   }
-  
+  async getSuccess() {
+    return await this.reservationRepository.find({
+      order: { updated_at: 'DESC' },
+      where: {
+        status:In(['completed']),
+        __hotel__: {
+          __user__: {
+           
+          },
+        },
+      },
+      relations: {
+        __hotel__: true,
+      },
+    });
+  }
 
 }

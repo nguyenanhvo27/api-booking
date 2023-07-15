@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository,In } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -58,10 +58,10 @@ export class UsersService {
     });
   }
 
-  async findOne(user: any) {
+  async findOne(user: any){
     try {
-      return await this.userRepository.findOne({
-        where: { user_id: user.userId },
+       return await this.userRepository.findOne({
+        where: { user_id: user.userId  },
         select: [
           'email',
           'first_name',
@@ -72,6 +72,7 @@ export class UsersService {
           'phone_number',
         ],
       });
+        
     } catch (error) {
       throw new HttpException(
         { message: 'Could not find entity' },
@@ -121,6 +122,43 @@ export class UsersService {
       const user = await this.findOne(id);
 
       return await this.userRepository.remove(user);
+    } catch (error) {
+      throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async block(id: number, updateUserDto: UpdateUserDto) {
+    console.log(id,"updateStatus");
+    try {
+      let user = await this.findOne(id);
+      
+      if (user.status) {
+        user.status = 'block';
+      }
+      let update = {
+        ...user,
+        ...updateUserDto,
+       
+      };
+      return this.userRepository.save(update);
+    } catch (error) {
+      throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async unBlock(id: number, updateUserDto: UpdateUserDto) {
+    console.log(id,"updateStatus");
+    try {
+      let user = await this.findOne(id);
+      
+      if (user.status) {
+        user.status = 'normal';
+      }
+      let update = {
+        ...user,
+        ...updateUserDto,
+       
+      };
+      return this.userRepository.save(update);
     } catch (error) {
       throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
     }

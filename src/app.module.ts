@@ -23,6 +23,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './tasks/tasks.service';
 import { TasksModule } from './tasks/tasks.module';
 import { ReviewModule } from './review/review.module';
+import { MailModule } from './mail/mail.module';
+import { HotelierTransactionModule } from './hotelier-transaction/hotelier-transaction.module';
 
 @Module({
   imports: [
@@ -89,6 +91,8 @@ import { ReviewModule } from './review/review.module';
     PaypalModule,
     TasksModule,
     ReviewModule,
+    MailModule,
+    HotelierTransactionModule,
   ],
   controllers: [AppController],
   providers: [

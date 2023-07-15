@@ -4,6 +4,8 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import {MailService} from './../mail/mail.service'
+import {User} from './../users/entities/user.entity'
 import { UsersService } from 'src/users/users.service';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -18,16 +20,27 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private mailService: MailService
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneAuth(email);
+    
     if (!user) {
       throw new HttpException(
-        { reason: 'Not found user' },
+        { reason: 'Không tìm thấy tài khoản người dùng!!!' },
         HttpStatus.BAD_REQUEST,
       );
     }
+    if(user.status==="block"){
+      throw new HttpException(
+        { reason: 'Tài khoản của bạn đã bị khóa!!!' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+ 
+
 
     // Load hash from your password DB.
     const isValid = bcrypt.compareSync(pass, user.password); // true

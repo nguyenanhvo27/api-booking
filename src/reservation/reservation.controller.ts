@@ -57,6 +57,10 @@ export class ReservationController {
   getMyReservation(@Param('hotelId') id: number) {
     return this.reservationService.getReservationById(id);
   }
+  @Get('/getSuccess')
+  async getSuccess() {
+    return await this.reservationService.getSuccess();
+  }
   /////// USER
   @Put('cancelReservation/:id')
   cancelReservation(@Param('id') id: string, @Body() UpdateReservationDto: UpdateReservationDto) {

@@ -42,6 +42,12 @@ export class User {
 
   @Column({ nullable: true })
   imgPath: string;
+  @Column({
+    nullable: true,
+    enum: ['block', 'normal'],
+    default: 'normal',
+  })
+  status: string;
 
   @OneToMany(() => Reservation, (reservation) => reservation.__user__, {
     cascade: true,

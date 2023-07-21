@@ -72,10 +72,10 @@ export class ReservationController {
       return this.reservationService.accept(+id, UpdateReservationDto);
     }
 
-    @Put('success/:id')
-    success(@Param('id') id: string, @Body() UpdateReservationDto: UpdateReservationDto) {
-        return this.reservationService.success(+id, UpdateReservationDto);
-      }
+  @Put('success/:id')
+  success(@Param('id') id: string, @Body() UpdateReservationDto: UpdateReservationDto) {
+      return this.reservationService.success(+id, UpdateReservationDto);
+    }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

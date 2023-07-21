@@ -60,7 +60,7 @@ export class HotelController {
     return await this.hotelService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('/editHotel/:id')
   async update(
     @Param('id') id: string,
     @Body() updateHotelDto: UpdateHotelDto,

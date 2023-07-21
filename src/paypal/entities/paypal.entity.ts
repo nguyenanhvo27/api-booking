@@ -10,6 +10,8 @@ import {
 export class Paypal {
   @PrimaryGeneratedColumn()
   id: number;
+   
+  
 
   @Column()
   access_token: string;

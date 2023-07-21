@@ -1,5 +1,5 @@
 export enum STATUS {
-    'unpaid' = 'unpaid',
     'paid' = 'paid',
+    'unpaid' = 'unpaid',
   }
   

@@ -9,6 +9,7 @@ import { RoomModule } from './room/room.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { UsersModule } from './users/users.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { HotelierTransactionModule } from './hotelier-transaction/hotelierTransaction.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
@@ -24,7 +25,6 @@ import { TasksService } from './tasks/tasks.service';
 import { TasksModule } from './tasks/tasks.module';
 import { ReviewModule } from './review/review.module';
 import { MailModule } from './mail/mail.module';
-import { HotelierTransactionModule } from './hotelier-transaction/hotelier-transaction.module';
 
 @Module({
   imports: [

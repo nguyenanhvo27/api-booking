@@ -8,10 +8,12 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToOne
 } from 'typeorm';
 import { Room } from 'src/room/entities/room.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 import { User } from 'src/users/entities/user.entity';
+import { HotelierTransaction } from 'src/hotelier-transaction/entities/hotelierTransaction.entity';
 import * as moment from 'moment';
 
 @Entity()
@@ -44,6 +46,11 @@ export class Hotel {
     cascade: true,
   })
   __reservations__: Reservation[];
+
+  @OneToMany(() => HotelierTransaction, (hotelierTransaction) => hotelierTransaction.__hotel__,{
+    cascade:true,
+  })
+  __hotelierTransaction__: HotelierTransaction;
 
   @CreateDateColumn()
   created_at: Date; // Creation date

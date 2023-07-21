@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { Hotel } from 'src/hotel/entities/hotel.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 import { Review } from 'src/review/entities/review.entity';
+import { HotelierTransaction } from 'src/hotelier-transaction/entities/hotelierTransaction.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +11,7 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -57,6 +59,12 @@ export class User {
   ])
   __reservations__: Reservation[];
 
+
+
+  @OneToMany(() => HotelierTransaction, (hotelierTransaction) => hotelierTransaction.__user__,{
+    cascade:true,
+  })
+  __hotelierTransaction__: HotelierTransaction;
   @OneToMany(() => Hotel, (hotel) => hotel.__user__, {
     cascade: true,
   })

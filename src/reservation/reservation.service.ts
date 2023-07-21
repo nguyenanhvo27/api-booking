@@ -155,8 +155,13 @@ export class ReservationService {
       },
       select: {
         hotel_name: true,
+        hotel_id:true,
       },
+      relations:{
+        __user__:true,
+      }
     });
+    
     const reservation = await this.reservationRepository.findAndCount({
       order: { updated_at: 'DESC' },
       where: {
@@ -264,8 +269,6 @@ export class ReservationService {
         ...reservation,
         ...UpdateReservationDto,
       };
-     
-      
       return this.reservationRepository.save(update);
     } catch (error) {
       throw new HttpException({ message: error }, HttpStatus.BAD_REQUEST);
@@ -306,20 +309,25 @@ export class ReservationService {
     }
   }
   async getSuccess() {
-    return await this.reservationRepository.find({
-      order: { updated_at: 'DESC' },
-      where: {
-        status:In(['completed']),
-        __hotel__: {
-          __user__: {
-           
-          },
-        },
-      },
-      relations: {
-        __hotel__: true,
-      },
-    });
+  const reservationSuccess = await this.reservationRepository.find({
+    order: { updated_at: 'DESC' },
+    where: {
+      status:In(['completed']),
+    
+    },
+    relations: {
+      __hotel__:true,
+      __user__:true
+    },
+  });
+  const currentMonth = moment().month();
+  const filteredOrders: Reservation[] = reservationSuccess.filter((reservation) => {
+    const createdAt = new Date(reservation.created_at);
+    const reservationMonth =  createdAt.getMonth() + 1;
+    return reservationMonth === currentMonth;
+  });
+  console.log(currentMonth,"tasdasd ")
+    return {filteredOrders};
   }
 
 }
